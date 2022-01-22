@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001;
 
 
 (async () => {
-    //Test Database Connection
+    // Test Database Connection
     try {
         await db.authenticate();
         console.log('Connection to Database has been established successfully.');
@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3001;
         console.error('Unable to connect to the database:', error);
       }
     
-    //Sync Database Development
+    // Sync Database DEVELOPMENT ONLY
     await db.sync({ alter: true })
     .then((result) => {
         console.log("Syncronized Database!")
@@ -33,6 +33,7 @@ const PORT = process.env.PORT || 3001;
 const authRoute = require('./routes/auth');
 const dashboardRoute = require('./routes/dashboard');
 
+// Session
 app.use(session({
     secret: process.env.API_SECRET,
     cookie: {
@@ -50,7 +51,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Home Route
+// Routes
+// Home Route
 app.get('/', (req, res) => {
     res.sendStatus(200);
 });
