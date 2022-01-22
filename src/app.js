@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const SessionStore = require('express-session-sequelize')(session.Store);
 const passport = require('passport');
 const discordStrategy = require('./strategies/discordstrategy');
 const db = require('./database/database');
@@ -37,8 +38,12 @@ app.use(session({
     cookie: {
         maxAge: 60000 * 60 * 24
     },
+    resave: false,
     saveUninitialized: false,
-    name: 'discord.oauth2'
+    name: 'discord.oauth2',
+    store: new SessionStore({
+        db: db,
+    }),
 }));
 
 // Passport
