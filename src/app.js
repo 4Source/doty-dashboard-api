@@ -4,7 +4,7 @@ const SessionStore = require('express-session-sequelize')(session.Store);
 const passport = require('passport');
 const discordStrategy = require('./strategies/discordstrategy');
 const db = require('./database/database');
-const DiscordUser = require('./database/models/DiscordUser');
+const models = require('./database/models');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
