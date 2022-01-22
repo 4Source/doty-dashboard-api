@@ -9,7 +9,7 @@ const DiscordUser = require('./database/models/DiscordUser');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-
+// Database
 (async () => {
     // Test Database Connection
     try {
@@ -35,9 +35,9 @@ const dashboardRoute = require('./routes/dashboard');
 
 // Session
 app.use(session({
-    secret: process.env.API_SECRET,
+    secret: process.env.SESSION_SECRET,
     cookie: {
-        maxAge: 60000 * 60 * 24
+        maxAge: 60000 * 60 * 24,
     },
     resave: false,
     saveUninitialized: false,
