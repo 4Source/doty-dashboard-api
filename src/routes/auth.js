@@ -1,12 +1,14 @@
-const passport = require("passport");
 const router = require("express").Router();
+const passport = require("passport");
+
 
 router.get('/', passport.authenticate('discord'));
 
 router.get('/redirect', passport.authenticate('discord', {
-    failureRedirect: '/forbidden'
+    failureRedirect: '/forbidden',
+    successRedirect: '/dashboard'
 }), (req, res) => {
-    res.send(200);
+    res.send(req.user);
 });
 
 
