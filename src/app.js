@@ -45,6 +45,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Home Route
+app.get('/', (req, res) => {
+    res.sendStatus(200);
+});
 // Middleware Routes
 app.use('/auth', authRoute);
 app.use('/dashboard', dashboardRoute);
