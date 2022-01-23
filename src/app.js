@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const SessionStore = require('express-session-sequelize')(session.Store);
 const passport = require('passport');
-const discordStrategy = require('./strategies/discordstrategy');
+const discordStrategy = require('./strategies/DiscordStrategy');
 const db = require('./database/database');
 const models = require('./database/models');
 
@@ -57,7 +57,7 @@ app.get('/', (req, res) => {
     res.sendStatus(200);
 });
 // Middleware Routes
-app.use('/auth', authRoute);
+app.use('/api/auth', authRoute);
 app.use('/dashboard', dashboardRoute);
 
 app.listen(PORT, () => {

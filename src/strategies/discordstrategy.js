@@ -7,12 +7,17 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-    const user = await DiscordUser.findOne({
-        where: {
-            user_id: id
-        }
-    })
-    if(user) done(null, user);
+    try {
+        const user = await DiscordUser.findOne({
+            where: {
+                user_id: id
+            }
+        })
+        console.log(user);
+        return user ? done(null, user) : done(null, null);     
+    } catch (err) {
+        done(err, null);
+    }
 });
 
 passport.use(new DiscordStrategy({
