@@ -13,7 +13,6 @@ passport.deserializeUser(async (id, done) => {
                 user_id: id
             }
         })
-        console.log(user);
         return user ? done(null, user) : done(null, null);     
     } catch (err) {
         done(err, null);
@@ -26,14 +25,26 @@ passport.use(new DiscordStrategy({
     callbackURL: process.env.BOT_CLIENT_REDIRECT,
     scope: ['identify', 'guilds']
 }, async (accessToken, refreshToken, profile, done) => {
-
     try {
+        // Find User or Create One if Not Matching Id found
         const [ user , created ] = await DiscordUser.findOrCreate({
             where: {
                 user_id: profile.id
+            },
+            defaults: {
+                accessToken: accessToken,
+                refreshToken: refreshToken,
             }
         });
-    
+        
+        // Update AccessToken/RefreshToken if Users isn't new
+        if(!created) {
+            console.log("Updated AccessToken/RefreshToken");
+            user.accessToken = accessToken;
+            user.refreshToken = refreshToken;
+            await user.save();
+        }
+        // Pass the User in
         if(user) done(null, user.dataValues);
     } catch (error) {
         console.log(error);
