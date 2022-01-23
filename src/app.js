@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const session = require('express-session');
 const SessionStore = require('express-session-sequelize')(session.Store);
 const passport = require('passport');
@@ -45,6 +46,12 @@ app.use(session({
     store: new SessionStore({
         db: db,
     }),
+}));
+
+// Cors
+app.use(cors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
 }));
 
 // Passport
