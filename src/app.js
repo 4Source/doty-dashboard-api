@@ -32,7 +32,7 @@ const PORT = process.env.PORT || 3001;
 
 // Routes
 const authRoute = require('./routes/auth');
-const dashboardRoute = require('./routes/dashboard');
+const discordRoute = require('./routes/discord');
 
 // Session
 app.use(session({
@@ -65,7 +65,7 @@ app.get('/', (req, res) => {
 });
 // Middleware Routes
 app.use('/api/auth', authRoute);
-app.use('/dashboard', dashboardRoute);
+app.use('/api/discord', discordRoute);
 
 app.listen(PORT, () => {
     console.log(`Running on Port ${PORT}`);
