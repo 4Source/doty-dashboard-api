@@ -1,15 +1,25 @@
 const router = require("express").Router();
 const passport = require("passport");
 
-
+// Login
 router.get('/', passport.authenticate('discord'));
 
+// Redirect
 router.get('/redirect', passport.authenticate('discord', {
-    failureRedirect: '/forbidden',
+    failureRedirect: '/failure',
     successRedirect: '/dashboard'
 }));
 
-router.get('/logout', (req, res) => {
+// Status
+router.get('/status', (req, res) => {
+    res.json({
+        msg: 'status',
+        code: '200'
+    })
+});
+
+// Logout
+router.post('/logout', (req, res) => {
     if(req.user) {
         req.logout();
         res.redirect('/');
