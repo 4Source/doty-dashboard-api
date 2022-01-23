@@ -6,16 +6,13 @@ router.get('/', passport.authenticate('discord'));
 
 // Redirect
 router.get('/redirect', passport.authenticate('discord', {
-    failureRedirect: '/failure',
-    successRedirect: '/dashboard'
+    failureRedirect: '/failure/access-denied',
+    successRedirect: 'http://localhost:3000/dashboard/servers'
 }));
 
 // Status
 router.get('/status', (req, res) => {
-    res.json({
-        msg: 'status',
-        code: '200'
-    })
+    res.send(req.user);
 });
 
 // Logout
