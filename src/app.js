@@ -33,6 +33,7 @@ const PORT = process.env.PORT || 3001;
 // Routes
 const authRoute = require('./routes/auth');
 const discordRoute = require('./routes/discord');
+const guildsRoute = require('./routes/guilds');
 
 // Session
 app.use(session({
@@ -62,6 +63,7 @@ app.use(passport.session());
 // Middleware Routes
 app.use('/api/auth', authRoute);
 app.use('/api/discord', discordRoute);
+app.use('/api/guilds', guildsRoute);
 
 app.listen(PORT, () => {
     console.log(`Running on Port ${PORT}`);
