@@ -59,10 +59,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-// Home Route
-app.get('/', (req, res) => {
-    res.sendStatus(200);
-});
 // Middleware Routes
 app.use('/api/auth', authRoute);
 app.use('/api/discord', discordRoute);
