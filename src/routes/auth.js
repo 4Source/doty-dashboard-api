@@ -7,7 +7,7 @@ router.get('/', passport.authenticate('discord'));
 // Redirect
 router.get('/redirect', passport.authenticate('discord', {
     failureRedirect: '/failure/access-denied',
-    successRedirect: 'http://localhost:3000/dashboard/servers'
+    successRedirect: 'http://localhost:3000/servers'
 }));
 
 // Status
