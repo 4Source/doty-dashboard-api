@@ -11,8 +11,9 @@ router.get('/redirect', passport.authenticate('discord', {
 }));
 
 // Status
-router.get('/status', (req, res) => {
-    res.send(req.user);
+router.get('/status', async(req, res) => {
+    if(!req.user) res.status(404).send('User is NOT logged in.');
+    res.status(200).send(`User(${req.user.user_id}) is logged in.`);
 });
 
 // Logout
