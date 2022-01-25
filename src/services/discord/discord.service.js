@@ -1,14 +1,14 @@
 const { fetchBotGuilds, fetchUserGuilds } = require('./discord-http.service');
 
-module.exports.getBotGuilds = () => {
-    return fetchBotGuilds()
+module.exports.getBotGuilds = async () => {
+    return await fetchBotGuilds()
     .then(({ data }) => {
         return data;
     });
 }
 
-module.exports.getUserGuilds = (accessToken) => {
-    return fetchUserGuilds(accessToken)
+module.exports.getUserGuilds = async (accessToken) => {
+    return await fetchUserGuilds(accessToken)
     .then(({ data }) => {
         return data;
     });
