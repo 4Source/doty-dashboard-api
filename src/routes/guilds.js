@@ -2,7 +2,7 @@ const { getGuildConfig, updateGuildPrefix } = require("../services/guilds/guilds
 
 const router = require("express").Router();
 
-router.get('/config/:guildId', async (req, res) => {
+router.get('/:guildId/config', async (req, res) => {
     const config = await getGuildConfig(req.params.guildId);
     if(!config) res.status(404).send('Guild Config with this guildId was not found in Database.');
     res.status(200).send(config);
