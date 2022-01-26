@@ -4,7 +4,7 @@ const cors = require('cors');
 const session = require('express-session');
 const SessionStore = require('express-session-sequelize')(session.Store);
 const passport = require('passport');
-const discordStrategy = require('./strategies/DiscordStrategy');
+const discordStrategy = require('./strategies/discord-strategy');
 const db = require('./database/database');
 const models = require('./database/models');
 
@@ -31,10 +31,11 @@ const PORT = process.env.PORT || 3001;
     });
 })();
 
-// Routes
-const authRoute = require('./routes/auth');
-const discordRoute = require('./routes/discord');
-const guildsRoute = require('./routes/guilds');
+// Cors
+app.use(cors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+}));
 
 // Session
 app.use(session({
@@ -50,20 +51,17 @@ app.use(session({
     }),
 }));
 
-// Cors
-app.use(cors({
-    origin: ['http://localhost:3000'],
-    credentials: true,
-}));
-
 // Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
 // bodyParser
-//app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-//app.use(bodyParser.raw());
+
+// Import Routers
+const authRoute = require('./routes/auth');
+const discordRoute = require('./routes/discord');
+const guildsRoute = require('./routes/guilds');
 
 // Routes
 // Middleware Routes
