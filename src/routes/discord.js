@@ -11,6 +11,16 @@ router.get('/guilds', async (req, res) => {
     res.status(200).json(mutuals);
 });
 
+router.get('/guilds/:guildId/channels/', async (req, res) => {
+    const [ channels, error ] = await getGuildChannels(req.params.guildId);
+    if(error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+    if(!channels) res.sendStatus(404);
+    res.status(200).json(channels);
+});
+
 router.get('/guilds/:guildId/channels/:channelType', async (req, res) => {
     const type = req.params.channelType;
     const [ channels, error ] = await getGuildChannels(req.params.guildId);
