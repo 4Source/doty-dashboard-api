@@ -5,7 +5,7 @@ const router = require("express").Router();
 router.get('/:guildId/config', async (req, res) => {
     const config = await getGuildConfig(req.params.guildId);
     if(!config) res.status(404).send('Guild Config with this guildId was not found in Database.');
-    res.status(200).send(config);
+    res.status(200).json(config);
 });
 
 router.post('/:guildId/config/prefix', async (req, res) => {
@@ -18,7 +18,7 @@ router.post('/:guildId/config/prefix', async (req, res) => {
         const config = await updateGuildPrefix(req.params.guildId, req.body.prefix);
         if(!config) res.status(404).send('Guild Config with this guildId was not found in Database.');
         console.log(config);
-        res.status(200).send(config);
+        res.status(200).json(config);
     } 
 });
 

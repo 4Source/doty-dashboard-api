@@ -13,12 +13,12 @@ router.get('/redirect', passport.authenticate('discord', {
 
 // Status
 router.get('/status', async(req, res) => {
-    if(!req.user) res.status(404).send(null);
+    if(!req.user) res.status(404).json(null);
     else {
         var user = req.user;
         delete user.accessToken;
         delete user.refreshToken;
-        res.status(200).send(user);
+        res.status(200).json(user);
     }
 });
 
