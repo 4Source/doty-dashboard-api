@@ -1,14 +1,15 @@
 const router = require("express").Router();
 const passport = require("passport");
 
-// Login
+// Auth with Discord
 router.get('/', passport.authenticate('discord'));
 
 // Redirect
 router.get('/redirect', passport.authenticate('discord', {
-    failureRedirect: '/failure/access-denied',
-    successRedirect: 'http://localhost:3000/servers'
-}));
+    failureRedirect: 'http://localhost:3000',
+}), (req, res) => {
+    res.redirect('http://localhost:3000/servers');
+});
 
 // Status
 router.get('/status', async(req, res) => {
@@ -22,15 +23,9 @@ router.get('/status', async(req, res) => {
 });
 
 // Logout
-router.post('/logout', (req, res) => {
-    console.log("logout", req.user);
-    if(req.user) {
-        req.logout();
-        res.redirect('/');
-    }
-    else {
-        res.redirect('/');
-    }
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('http://localhost:3000');
 })
 
 
