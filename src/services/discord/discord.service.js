@@ -1,4 +1,4 @@
-const { fetchBotGuilds, fetchUserGuilds } = require('./discord-http.service');
+const { fetchBotGuilds, fetchUserGuilds, fetchGuildChannels } = require('./discord-http.service');
 
 module.exports.getBotGuilds = async () => {
     return await fetchBotGuilds();
@@ -37,4 +37,8 @@ module.exports.getMutualGuilds = async(accessToken) => {
     const mutualGuilds = manageGuildUserGuilds.filter((guild) => botGuilds.some((botGuild) => botGuild.id === guild.id));
 
     return [ mutualGuilds, null ];
+}
+
+module.exports.getGuildChannels = async ( guildId ) => {
+    return await fetchGuildChannels( guildId );
 }
