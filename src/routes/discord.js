@@ -11,25 +11,27 @@ router.get('/guilds', async (req, res) => {
     res.status(200).json(mutuals);
 });
 
-router.get('/guilds/:guildId/channels/', async (req, res) => {
+router.post('/guilds/:guildId/channels/', async (req, res) => {
+    console.log(req.params, req.body,);
+    const types = req.body.type;
     const [ channels, error ] = await getGuildChannels(req.params.guildId);
     if(error) {
         console.log(error);
         res.sendStatus(500);
     }
     if(!channels) res.sendStatus(404);
-    res.status(200).json(channels);
-});
-
-router.get('/guilds/:guildId/channels/:channelType', async (req, res) => {
-    const type = req.params.channelType;
-    const [ channels, error ] = await getGuildChannels(req.params.guildId);
-    if(error) {
-        console.log(error);
-        res.sendStatus(500);
+    console.log(types);
+    if(!(types == undefined)) {
+        const filterdchannels = channels.filter((channel) => {
+            console.log(channel, types.includes(channel.type))
+            if(types.includes(channel.type)) return channel;
+        } )
+        console.log(filterdchannels);
+        res.status(200).json(filterdchannels);
     }
-    if(!channels) res.sendStatus(404);
-    res.status(200).json(channels.filter((channel) => channel.type == type));
+    else{
+        res.status(200).json(channels);
+    }
 });
 
 module.exports = router;
