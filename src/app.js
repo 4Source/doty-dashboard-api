@@ -1,4 +1,5 @@
 const express = require('express');
+const http = require('http');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
@@ -10,6 +11,8 @@ const models = require('./database/models');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const server = http.createServer(app);
+const webSocket = require('./websocket/websocket.module').init(server);
 
 // Database
 (async () => {
@@ -69,6 +72,10 @@ app.use('/api/auth', authRoute);
 app.use('/api/discord', discordRoute);
 app.use('/api/guilds', guildsRoute);
 
-app.listen(PORT, () => {
-    console.log(`Running on Port ${PORT}`);
+// Websocket
+webSocket.on();
+
+// Listen to the PORT
+server.listen(PORT, () => {
+    console.log(`Server running on Port ${PORT}`);
 });

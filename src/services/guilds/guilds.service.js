@@ -1,5 +1,5 @@
 const GuildConfig = require("../../database/models/guildConfig");
-const { getUserGuilds } = require("../discord/discord.service");
+const { emitGuildPrefixUpdate } = require('../websocket/websocket.service');
 
 /**
  * @param {string} guildId ID of the Guild
@@ -32,7 +32,10 @@ module.exports.updateGuildPrefix = async ( guildId, prefix ) => {
             config.prefix = prefix;
             config = await config.save();
         }     
-        if(config) return config.dataValues;        
+        if(config) {
+            emitGuildPrefixUpdate(config);
+            return config.dataValues;        
+        }
     } catch (err) {
         console.log(err);
     }
