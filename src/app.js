@@ -1,14 +1,18 @@
 const express = require('express');
+const http = require('http');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
 const SessionStore = require('express-session-sequelize')(session.Store);
 const passport = require('passport');
-const discordStrategy = require('./strategies/DiscordStrategy');
+const discordStrategy = require('./strategies/discord-strategy');
 const db = require('./database/database');
 const models = require('./database/models');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const server = http.createServer(app);
+const webSocket = require('./websocket/websocket.module').init(server);
 
 // Database
 (async () => {
@@ -30,9 +34,11 @@ const PORT = process.env.PORT || 3001;
     });
 })();
 
-// Routes
-const authRoute = require('./routes/auth');
-const dashboardRoute = require('./routes/dashboard');
+// Cors
+app.use(cors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+}));
 
 // Session
 app.use(session({
@@ -48,25 +54,28 @@ app.use(session({
     }),
 }));
 
-// Cors
-app.use(cors({
-    origin: ['http://localhost:3000'],
-    credentials: true,
-}));
-
 // Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
+// bodyParser
+app.use(bodyParser.json());
+
+// Import Routers
+const authRoute = require('./routes/auth');
+const discordRoute = require('./routes/discord');
+const guildsRoute = require('./routes/guilds');
+
 // Routes
-// Home Route
-app.get('/', (req, res) => {
-    res.sendStatus(200);
-});
 // Middleware Routes
 app.use('/api/auth', authRoute);
-app.use('/dashboard', dashboardRoute);
+app.use('/api/discord', discordRoute);
+app.use('/api/guilds', guildsRoute);
 
-app.listen(PORT, () => {
-    console.log(`Running on Port ${PORT}`);
+// Websocket
+webSocket.on();
+
+// Listen to the PORT
+server.listen(PORT, () => {
+    console.log(`Server running on Port ${PORT}`);
 });

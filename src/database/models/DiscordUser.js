@@ -9,6 +9,14 @@ const DiscordUser = db.define("discord_user", {
         primaryKey: true,
         allowNull: false,
     },
+    accessToken: { //Encryption Needed
+      type: DataTypes.STRING,
+      //allowNull: false,
+    },
+    refreshToken: { //Encryption Needed
+      type: DataTypes.STRING,
+      //allowNull: false,
+    }
   }, {
     //Configuration Sequelize
     timestamps: false
