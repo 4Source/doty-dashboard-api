@@ -1,26 +1,5 @@
 const { Server } = require('socket.io');
 
-// The Object of the WebSocket 
-let webSocket;
-
-// Inizialize the Object of the WebSocket with the passed server
-const init = ( server ) => {
-    webSocket = new WebSocket(server);
-    return webSocket;
-};
-
-// Give the Object of the WebSocket back
-const use = () => {
-    return webSocket;
-}
-
-// Exports Modules
-module.exports = {
-    init: init,
-    use: use
-}
-
-// Class Defininition 
 class WebSocket {
     constructor( server ) {
         this.io = new Server(server, {
@@ -32,13 +11,42 @@ class WebSocket {
     on() {
         this.io.on('connection', (socket) => {
             console.log(`User connected. ${socket.id}`);
+            // Connection Disconnected Event
             socket.on('disconnect', () => {
                 console.log(`User disconnected. ${socket.id}`);
             });
+            // Default Message Event
+            socket.on('message', (data) => {
+                console.log(`${socket.id} send: ${data}`);
+            });
+
+            // Other Events
+            // Guilds Event
             socket.on('guilds', (data) => {
                 console.log(`${socket.id} send: ${data}`);
             });
         
         });
     }
+
+    /**
+     * Emit an Event with the Guild ID as Name and Passes the Data. 
+     * @param {{guildId: string, key: string, value: string}} opts 
+     * @param  guildId For which Guild is Changed
+     * @param key What data is changed
+     * @param value Data to be changed
+     * @returns {boolean} Submitted successfully
+     */
+    update( opts ) {
+        if(!opts.guildId) return false;
+        if(!opts.key || !opts.value) return false;
+
+        return this.io.emit(opts.guildId, opts);
+    }
+   
+    guildBrodcast(guild) {
+        this.io.emit(`${guild.id}`, 'Hello there');
+    }
 }
+
+module.exports = WebSocket;

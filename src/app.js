@@ -12,7 +12,7 @@ const models = require('./database/models');
 const app = express();
 const PORT = process.env.PORT || 3001;
 const server = http.createServer(app);
-const webSocket = require('./websocket/websocket').init(server);
+const webSocket = require('./websocket/websocket.module').init(server);
 
 // Database
 (async () => {
