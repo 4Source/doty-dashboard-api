@@ -33,7 +33,7 @@ module.exports.updateGuildPrefix = async ( guildId, prefix ) => {
             config = await config.save();
         }     
         if(config) {
-            emitGuildPrefixUpdate(config);
+            emitGuildPrefixUpdate(config.dataValues);
             return config.dataValues;        
         }
     } catch (err) {

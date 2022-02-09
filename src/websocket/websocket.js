@@ -31,17 +31,17 @@ class WebSocket {
 
     /**
      * Emit an Event with the Guild ID as Name and Passes the Data. 
-     * @param {{guildId: string, key: string, value: string}} opts 
-     * @param  guildId For which Guild is Changed
+     * @param {{guild_id: string, key: string, value: string}} opts 
+     * @param  guild_id For which Guild is Changed
      * @param key What data is changed
      * @param value Data to be changed
      * @returns {boolean} Submitted successfully
      */
     update( opts ) {
-        if(!opts.guildId) return false;
+        if(!opts.guild_id) return false;
         if(!opts.key || !opts.value) return false;
 
-        return this.io.emit(opts.guildId, opts);
+        return this.io.emit(opts.guild_id, opts);
     }
    
     guildBrodcast(guild) {
